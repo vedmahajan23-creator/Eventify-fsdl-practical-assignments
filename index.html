@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 📱 THIS LINE IS THE SECRET: It makes it work DIRECTLY on phone -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Eventify | Future of Campus Events</title>
+    
+    <!-- Modern Styling & Animations -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --accent: #00f2fe; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0f172a;
+            color: white;
+            overflow-x: hidden; /* Prevents side-scrolling on mobile */
+        }
+        /* Animated Background Gradient */
+        .bg-animate {
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #1e1b4b);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            position: fixed; width: 100%; height: 100%; z-index: -1;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .text-neon { color: var(--accent); text-shadow: 0 0 10px rgba(0, 242, 254, 0.5); }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .stat-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.08); }
+        
+        /* Fixed input styles for mobile Safari/Chrome */
+        input, select { 
+            background: rgba(255,255,255,0.05) !important; 
+            border: 1px solid rgba(255,255,255,0.1) !important; 
+            color: white !important; 
+            -webkit-appearance: none; 
+            appearance: none; /* Add this line to fix the warning */
+        }
+        input:focus { border-color: var(--accent) !important; box-shadow: 0 0 10px rgba(0, 242, 254, 0.3) !important; }
+        option { color: black; }
+
+        #splashScreen h1 {
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.8), 0 0 40px rgba(0, 242, 254, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🌌 CRAZY SPLASH SCREEN (ENTRY SCREEN) -->
+    <div id="splashScreen" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0f172a] overflow-hidden">
+        <div class="absolute inset-0 opacity-30">
+            <div class="absolute w-96 h-96 bg-cyan-500 rounded-full blur-[120px] -top-20 -left-20 animate-pulse"></div>
+            <div class="absolute w-96 h-96 bg-purple-600 rounded-full blur-[120px] -bottom-20 -right-20 animate-pulse" style="animation-delay: 2s"></div>
+        </div>
+
+        <div class="relative text-center z-10 p-6 w-full">
+            <div class="mb-6 animate__animated animate__zoomIn">
+                <div class="w-16 h-16 md:w-24 md:h-24 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <h1 class="orbitron text-4xl md:text-8xl font-black tracking-[0.2em] text-white italic">
+                    EVENT<span class="text-neon">IFY</span>
+                </h1>
+            </div>
+
+            <p class="text-gray-400 uppercase tracking-[0.3em] md:tracking-[0.5em] mb-10 animate__animated animate__fadeInUp animate__delay-1s text-[10px] md:text-sm">
+                The Future of Campus Events is Here
+            </p>
+
+            <button onclick="enterSite()" class="group relative px-8 md:px-12 py-3 md:py-4 bg-transparent animate__animated animate__fadeInUp animate__delay-2s">
+                <div class="absolute inset-0 bg-cyan-500 rounded-full blur-xl opacity-20 group-hover:opacity-60 transition"></div>
+                <div class="relative border-2 border-cyan-400 text-cyan-400 font-bold orbitron tracking-widest px-6 md:px-10 py-3 md:py-4 rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-500 text-sm md:text-base">
+                    ENTER THE EXPERIENCE
+                </div>
+            </button>
+        </div>
+        
+        <div class="absolute bottom-10 w-full text-center text-gray-600 text-[8px] md:text-[10px] tracking-[0.3em] uppercase">
+            System Initialized &middot; Cloud Core Online
+            <p class="mt-1">Developed by VED</p>
+        </div>
+    </div>
+
+    <div class="bg-animate"></div>
+
+    <!-- Navigation -->
+    <nav class="p-4 md:p-6 flex justify-between items-center max-w-7xl mx-auto">
+        <h1 class="orbitron text-xl md:text-2xl font-bold tracking-widest text-neon">EVENTIFY</h1>
+        
+        <div class="space-x-4 md:space-x-8 flex text-[10px] md:text-base">
+            <a href="index.html" class="text-cyan-400 border-b-2 border-cyan-400 pb-1">Register</a>
+            <a href="events.html" class="hover:text-cyan-400 transition">Events</a>
+            <a href="admin.html" class="px-3 py-1 md:px-5 md:py-2 glass rounded-full hover:bg-white hover:text-black transition">Admin Portal</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 md:px-6 pt-6 md:pt-10 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12 items-center min-h-[80vh]">
+        
+        <!-- Left Side: Hero Text & Stats -->
+        <div class="animate__animated animate__fadeInLeft text-center lg:text-left">
+            <h2 class="text-4xl md:text-6xl font-bold leading-tight mb-6">Experience the <br><span class="text-neon">Next Gen</span> Events</h2>
+            <p class="text-gray-400 text-sm md:text-lg mb-10 max-w-md mx-auto lg:mx-0">Secure your spot in the most anticipated tech fests and workshops. Powered by AWS Cloud Infrastructure for a seamless experience.</p>
+            
+            <!-- Mini Stats Section -->
+            <div class="grid grid-cols-3 gap-2 md:gap-4 mt-8">
+                <div class="glass p-3 md:p-4 rounded-2xl stat-card text-center">
+                    <h3 class="text-lg md:text-2xl font-bold text-neon">50+</h3>
+                    <p class="text-[8px] md:text-xs text-gray-400 uppercase">Events</p>
+                </div>
+                <div class="glass p-3 md:p-4 rounded-2xl stat-card text-center">
+                    <h3 class="text-lg md:text-2xl font-bold text-neon">10K+</h3>
+                    <p class="text-[8px] md:text-xs text-gray-400 uppercase tracking-tighter">Users</p>
+                </div>
+                <div class="glass p-3 md:p-4 rounded-2xl stat-card text-center flex flex-col items-center justify-center">
+                    <i class="fab fa-aws text-lg md:text-2xl text-orange-400"></i>
+                    <p class="text-[8px] md:text-xs text-gray-400 uppercase mt-1">Cloud</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: The Registration Form -->
+        <div class="animate__animated animate__fadeInRight">
+            <div class="glass p-6 md:p-10 rounded-[30px] shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-20">
+                    <i class="fas fa-rocket text-4xl md:text-6xl text-cyan-400"></i>
+                </div>
+                
+                <h3 class="text-xl md:text-2xl font-semibold mb-6 md:mb-8 orbitron text-center lg:text-left">Reserve Your Seat</h3>
+                
+                <form id="regForm" class="space-y-4 md:space-y-6">
+                    <div class="relative group">
+                        <i class="fas fa-user absolute left-4 top-4 text-gray-500"></i>
+                        <input type="text" id="name" placeholder="Full Name" class="w-full pl-10 md:pl-12 pr-4 py-3 rounded-xl outline-none transition" required>
+                    </div>
+
+                    <div class="relative group">
+                        <i class="fas fa-envelope absolute left-4 top-4 text-gray-500"></i>
+                        <input type="email" id="email" placeholder="Email Address" class="w-full pl-10 md:pl-12 pr-4 py-3 rounded-xl outline-none transition" required>
+                    </div>
+
+                    <div class="relative group">
+                        <i class="fas fa-calendar-alt absolute left-4 top-4 text-gray-500"></i>
+                        <select id="eventSelect" class="w-full pl-10 md:pl-12 pr-4 py-3 rounded-xl outline-none transition cursor-pointer appearance-none" required>
+                            <option value="">⚡ Fetching Events...</option>
+                        </select>
+                    </div>
+
+                    <div class="border-2 border-dashed border-white/10 p-4 md:p-6 rounded-2xl text-center hover:bg-white/5 transition group">
+                        <input type="file" id="proof" class="hidden">
+                        <label for="proof" class="cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-2xl md:text-3xl mb-2 text-gray-400 group-hover:text-cyan-400 transition"></i>
+                            <p class="text-[10px] md:text-sm text-gray-400 group-hover:text-white" id="file-name">Upload Payment Proof (JPG/PNG)</p>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-3 md:py-4 rounded-xl shadow-lg transition orbitron tracking-widest text-xs md:text-base">
+                        REGISTER NOW <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-10 border-t border-white/10 pt-10 pb-6 bg-black/20">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center md:text-left">
+            <div>
+                <h1 class="orbitron text-lg md:text-xl font-bold text-neon mb-2">EVENTIFY</h1>
+                <p class="text-gray-500 text-[10px] md:text-sm italic uppercase tracking-widest">AWS Cloud Core System</p>
+            </div>
+            <div class="text-center text-gray-400 text-xs">
+                <p>&copy; 2026 All Rights Reserved.</p>
+                <p class="mt-1 uppercase tracking-tighter">Developed by <span class="text-white font-semibold">VED</span></p>
+            </div>
+            <div class="flex justify-center md:justify-end space-x-6 text-xl text-gray-500">
+                <i class="fab fa-aws hover:text-orange-400 transition"></i>
+                <i class="fab fa-github hover:text-white transition"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Popup Overlay -->
+    <div id="successOverlay" class="fixed inset-0 bg-black/95 hidden flex items-center justify-center z-[10000] p-6">
+        <div class="glass p-8 md:p-12 rounded-[30px] text-center max-w-sm animate__animated animate__zoomIn">
+            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-check text-2xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-2 orbitron uppercase tracking-widest">Success!</h2>
+            <p class="text-gray-400 text-sm">Your registration is locked in. We'll see you at the event!</p>
+            <button onclick="location.reload()" class="mt-8 w-full py-3 bg-white text-black font-bold rounded-full hover:bg-cyan-400 transition orbitron text-xs tracking-widest">CLOSE</button>
+        </div>
+    </div>
+
+<script>
+        // 1. ADD THIS AT THE VERY TOP OF YOUR SCRIPT tag in index.html
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('event_id')) {
+                // If coming from events page, hide splash instantly
+                document.getElementById('splashScreen').style.display = 'none';
+            }
+        };
+
+        function enterSite() {
+            const splash = document.getElementById('splashScreen');
+            splash.classList.add('animate__animated', 'animate__fadeOutUp');
+            setTimeout(() => { splash.style.display = 'none'; }, 800);
+        } 
+
+        const API_BASE = "http://Eventify-ALB-544014946.eu-north-1.elb.amazonaws.com";
+
+        document.getElementById('proof').onchange = function() {
+            if(this.files[0]) document.getElementById('file-name').innerText = "Selected: " + this.files[0].name;
+        };
+
+        async function fetchEvents() {
+            try {
+                const res = await fetch(`${API_BASE}/events`);
+                const events = await res.json();
+                const select = document.getElementById('eventSelect');
+                select.innerHTML = '<option value="">-- Choose Your Event --</option>';
+                
+                events.forEach(e => {
+                    select.innerHTML += `<option class="text-black" value="${e.id}">${e.title}</option>`;
+                });
+
+                // 2. THIS PART AUTO-SELECTS THE EVENT
+                const urlParams = new URLSearchParams(window.location.search);
+                const eventId = urlParams.get('event_id');
+                if (eventId) {
+                    select.value = eventId;
+                }
+
+            } catch (err) {
+                console.error("Failed to load events.");
+            }
+        }
+
+        document.getElementById('regForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+            btn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('event_id', document.getElementById('eventSelect').value);
+            
+            const fileInput = document.getElementById('proof');
+            if (fileInput.files[0]) {
+                formData.append('proof', fileInput.files[0]);
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/register`, { method: 'POST', body: formData });
+                if (response.ok) document.getElementById('successOverlay').classList.remove('hidden');
+                else alert("Registration failed.");
+            } catch (error) {
+                alert("Could not connect to the AWS Cloud Server.");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        };
+
+        fetchEvents();
+    </script>
+</body>
+</html>

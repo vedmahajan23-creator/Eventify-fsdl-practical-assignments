@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Login | Eventify</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0f172a; font-family: 'Poppins', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="glass p-10 rounded-3xl w-full max-w-sm text-center">
+        <h1 class="font-['Orbitron'] text-cyan-400 text-2xl mb-8 tracking-widest">ADMIN ACCESS</h1>
+        <form id="loginForm" class="space-y-6">
+            <input type="text" id="username" placeholder="Username" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+            <input type="password" id="password" placeholder="Password" class="w-full p-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+            <button type="submit" class="w-full bg-cyan-500 py-3 rounded-xl font-bold text-white hover:bg-cyan-400 transition">LOGIN</button>
+        </form>
+    </div>
+<script>
+    document.getElementById('loginForm').onsubmit = async (e) => {
+        e.preventDefault();
+        
+        // .trim() removes any accidental spaces
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value.trim();
+
+        console.log("Attempting login with:", u);
+
+        // Simple Security Check
+        if (u === 'admin' && p === 'ved123') {
+            console.log("Login Success! Setting storage...");
+            localStorage.setItem('isAdmin', 'true'); 
+            
+            // Redirect to admin page
+            window.location.href = "admin.html"; 
+        } else {
+            console.log("Login Failed!");
+            alert("Wrong Username or Password!");
+        }
+    };
+</script>
+</body>
+</html>

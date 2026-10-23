@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | Eventify</title>
+    
+    <!-- 🛡️ SECURITY GUARD MOVED TO HEAD (RUNS INSTANTLY) -->
+    <script>
+        if (localStorage.getItem('isAdmin') !== 'true') {
+            window.location.replace("login.html"); 
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0f172a; font-family: 'Poppins', sans-serif; color: white; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+    </style>
+</head>
+<body class="p-6">
+    <!-- Login Guard: This MUST be the first thing in the script -->
+    <script>
+        if (localStorage.getItem('isAdmin') !== 'true') {
+            window.location.href = "login.html"; 
+        }
+    </script>
+
+    <div class="max-w-6xl mx-auto">
+        <nav class="flex justify-between items-center mb-12">
+            <h1 class="orbitron text-2xl text-cyan-400 tracking-widest">ADMIN PORTAL</h1>
+            <button onclick="logout()" class="px-6 py-2 bg-red-500/20 text-red-400 border border-red-500/50 rounded-full hover:bg-red-500 hover:text-white transition">
+                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+            </button>
+        </nav>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="glass p-6 rounded-2xl">
+                <p class="text-gray-400 text-sm">Total Registrations</p>
+                <h2 id="totalCount" class="text-4xl font-bold text-cyan-400">0</h2>
+            </div>
+        </div>
+
+        <div class="glass rounded-[30px] overflow-hidden animate__animated animate__fadeIn">
+            <table class="w-full text-left">
+                <thead class="bg-white/10 orbitron text-xs tracking-widest">
+                    <tr>
+                        <th class="p-6">Student Name</th>
+                        <th class="p-6">Event</th>
+                        <th class="p-6">Proof of Payment</th>
+                    </tr>
+                </thead>
+                <tbody id="regList" class="divide-y divide-white/5">
+                    <!-- Rows will be added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://Eventify-ALB-544014946.eu-north-1.elb.amazonaws.com";
+
+        async function loadData() {
+            try {
+                const res = await fetch(`${API_BASE}/registrations`);
+                const data = await res.json();
+                
+                document.getElementById('totalCount').innerText = data.length;
+                const list = document.getElementById('regList');
+                list.innerHTML = "";
+
+                data.forEach(r => {
+                    list.innerHTML += `
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-6 font-semibold">${r.name} <br> <span class="text-gray-500 text-xs font-normal">${r.email}</span></td>
+                            <td class="p-6 text-cyan-400">${r.event_name}</td>
+                            <td class="p-6">
+                                ${r.file_url ? `<a href="${r.file_url}" target="_blank" class="text-xs bg-white/10 px-4 py-2 rounded-lg hover:bg-cyan-500 transition">VIEW IMAGE</a>` : '<span class="text-gray-600 italic">No proof</span>'}
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                console.error("Failed to load registrations.");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isAdmin'); // Clear login memory
+            window.location.href = "login.html"; // Redirect
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
